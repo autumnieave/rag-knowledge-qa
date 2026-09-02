@@ -20,12 +20,12 @@ project_root/
 │ ├── main.py # FastAPI 入口
 │ ├── graph.py # LangGraph 流程定义
 │ └── models.py # Pydantic 请求/响应模型
-├── data/ # 存放公考原始 PDF/TXT（此处仅放示例文件）
+├── data/ # 存放原始题目语料 PDF/TXT（此处仅放示例文件）
 ├── chroma_db/ # 向量库持久化目录（自动生成，不手动提交）
 ├── models/ # 本地嵌入模型（离线加载）
 ├── .env.example # 环境变量模板
 ├── requirements.txt
-├── extract_gongkao_data.py   # 数据提取脚本
+├── extract_knowledge_data.py # 数据提取脚本
 ├── load_knowledge_base.py    # 数据入库脚本
 ├── check_chroma.py           # 向量库检查脚本
 └── AGENTS.md # 本文件

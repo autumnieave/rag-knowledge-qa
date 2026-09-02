@@ -1,12 +1,12 @@
-# 公考 RAG 问答接口
+# RAG 知识库问答 API 原型
 
-基于 **FastAPI + LangGraph** 的公考申论知识问答系统：从公开公考题库中自动提取申论题目与给定材料，构建本地向量知识库，通过「检索 → 生成」的 RAG 流程，让大模型基于给定材料回答问题并返回引用来源。
+基于 **FastAPI + LangGraph** 的知识库问答 API 原型：从公开题目语料中自动提取题干与给定材料，构建本地向量知识库，通过「检索 → 生成」的 RAG 流程，让大模型基于给定材料回答问题并返回引用来源。示例语料使用公开的公务员申论题目（仅作技术演示，内容版权归原始来源）。
 
 ---
 
 ## 1. 项目简介
 
-- 输入：用户用自然语言提出公考申论相关问题。
+- 输入：用户用自然语言就知识库内题目提问。
 - 处理：问题经本地 `Sentence-Transformers` 模型编码后，从 ChromaDB 向量库检索最相关的 TOP_K 个文档块，拼接为上下文。
 - 输出：DeepSeek（或 OpenAI）大模型基于上下文生成答案，同时返回引用来源（`source_file` 与对应 `question`）。
 - 特点：嵌入模型完全本地化（`./models/`），推理过程不依赖 Hugging Face 网络；向量库与知识库均为本地文件，离线可跑。
@@ -33,7 +33,7 @@
 ## 3. 项目结构
 
 ```text
-公考RAG问答接口/
+rag-knowledge-qa/
 ├── app/                          # 应用主代码
 │   ├── __init__.py
 │   ├── main.py                   # FastAPI 入口（/chat、/health、/）
@@ -46,13 +46,13 @@
 ├── chroma_db/                    # ChromaDB 向量库持久化目录（自动生成）
 │   ├── chroma.sqlite3
 │   └── <collection-uuid>/
-├── gongkao-tiku/                 # 公考题库数据源（外部克隆仓库，非本项目代码）
+├── gongkao-tiku/                 # 题目语料数据源（外部克隆仓库，非本项目代码）
 │   ├── 申论题库/                  # 公文写作题 / 单一题 / 文章写作题 / 综合题 等
 │   ├── 智能系统/                  # 暂时没有用到
 │   ├── 行测题库/                  # 暂无数据
 │   ├── 职测题库/                  # 暂无数据
 │   └── 综应题库/                  # 暂时没有用到
-├── extract_gongkao_data.py       # 提取题库 → data/knowledge_base.json
+├── extract_knowledge_data.py     # 提取题目语料 → data/knowledge_base.json
 ├── download_model.py            # 下载本地嵌入模型（仅需执行一次，已下载可跳过）
 ├── load_knowledge_base.py        # 加载知识库 → ChromaDB 向量库
 ├── check_chroma.py               # 检查向量库集合内容
@@ -106,12 +106,12 @@ python download_model.py
 
 脚本会检查 `./models/paraphrase-multilingual-MiniLM-L12-v2/` 是否存在：缺失或不完整时，从镜像站（`https://hf-mirror.com`，失败自动重试 5 次）下载完整模型仓库（约 500MB，仅需执行一次）；已存在则直接跳过，不会重复下载。
 
-> **数据准备**：仓库不附带题库与知识库文件（`gongkao-tiku/`、`data/knowledge_base.json` 已 gitignore）。首次使用请自行获取题目数据（可克隆公开题库仓库到 `./gongkao-tiku`，目录需包含 `申论题库/` 下的 Markdown 题目），再执行 4.4 提取与 4.5 建库。题库内容版权归原始来源（仅限个人备考使用），请勿公开传播。
+> **数据准备**：仓库不附带题库与知识库文件（`gongkao-tiku/`、`data/knowledge_base.json` 已 gitignore）。首次使用请自行获取题目数据（可克隆公开题库仓库到 `./gongkao-tiku`，目录需包含 `申论题库/` 下的 Markdown 题目），再执行 4.4 提取与 4.5 建库。题库内容版权归原始来源，本仓库仅用于技术演示，请勿公开传播题目原文。
 
 ### 4.4 提取题库数据
 
 ```powershell
-python extract_gongkao_data.py --data_path ./gongkao-tiku
+python extract_knowledge_data.py --data_path ./gongkao-tiku
 ```
 
 每个题型随机提取 50 道（不足则全量），解析 `## 题目`、`## 给定材料`、`## 参考答案`、`## 答题演示`，清洗 Markdown 后输出到 `./data/knowledge_base.json`。

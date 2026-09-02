@@ -11,8 +11,8 @@ from app.models import AnswerResponse, QueryRequest
 
 # 初始化 FastAPI 应用
 app = FastAPI(
-    title="公考 RAG 问答接口",
-    description="基于 LangGraph + ChromaDB 的公考知识问答服务",
+    title="RAG 知识库问答 API",
+    description="基于 LangGraph + ChromaDB 的知识库问答服务（RAG）",
     version="0.1.0",
 )
 
@@ -71,7 +71,7 @@ def health() -> dict:
 def root() -> dict:
     """根路径：返回接口使用说明。"""
     return {
-        "message": "欢迎使用公考 RAG 问答接口",
+        "message": "欢迎使用 RAG 知识库问答 API",
         "docs": "请访问 /docs 查看接口文档",
         "health": "GET /health 健康检查",
         "chat": 'POST /chat 提问（body: {"question": "..."}）',

@@ -141,7 +141,7 @@ def retrieve_node(state: State) -> dict:
     return {"context": context, "sources": sources}
 
 
-SYSTEM_PROMPT_TEMPLATE = """你是一名公考知识问答助手。请严格根据以下提供的资料回答问题：
+SYSTEM_PROMPT_TEMPLATE = """你是一名知识库问答助手。请严格根据以下提供的资料回答问题：
 
 {context}
 

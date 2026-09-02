@@ -69,7 +69,7 @@ def parse_coverage(text: str) -> dict:
     return {"coverage": -1, "missing": "", "comment": "解析失败"}
 
 JUDGE_TEMPLATE = (
-    "你是公考申论评分员。请判断「模型回答」对「参考答案」核心要点的覆盖程度。\n"
+    "你是知识问答评分员。请判断「模型回答」对「参考答案」核心要点的覆盖程度。\n"
     "问题：{question}\n"
     "参考答案（节选）：{reference}\n"
     "模型回答：{answer}\n"

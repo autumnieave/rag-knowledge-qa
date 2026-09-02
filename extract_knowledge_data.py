@@ -1,4 +1,4 @@
-"""从 gongkao-tiku 项目中提取申论题库数据，统一保存为 knowledge_base.json。
+"""从题目语料目录中提取题干/给定材料/参考答案，统一保存为 knowledge_base.json。
 
 使用示例：
     python extract_gongkao_data.py --data_path ./gongkao-tiku
@@ -156,7 +156,7 @@ def resolve_type_dir(data_root: Path, display_name: str) -> Path:
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="提取 gongkao-tiku 申论题库数据并保存为 knowledge_base.json"
+        description="提取题目语料数据并保存为 knowledge_base.json"
     )
     parser.add_argument("--data_path", required=True, help="gongkao-tiku 项目根目录")
     args = parser.parse_args()
