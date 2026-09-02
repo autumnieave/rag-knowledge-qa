@@ -1,0 +1,27 @@
+# ===== 敏感信息（严禁提交）=====
+.env
+.env.local
+
+# ===== 虚拟环境 / 缓存 =====
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# ===== 大数据与模型（体积大，不入库）=====
+models/
+chroma_db/
+gongkao-tiku/
+data/knowledge_base.json
+
+# ===== 备份与个人记录 =====
+源码.rar
+AI coding对话记录.md
+index.md
+
+# ===== IDE / 系统 =====
+.vscode/
+.idea/
+Thumbs.db
+.DS_Store
+eval_results.jsonl
